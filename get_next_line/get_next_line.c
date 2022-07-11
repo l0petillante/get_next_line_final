@@ -1,5 +1,17 @@
-#include "get_next_line.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lhmissi <lhmissi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/11 14:02:28 by lhmissi           #+#    #+#             */
+/*   Updated: 2022/07/11 14:36:45 by lhmissi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "get_next_line.h"
+// possibilite de reprendre strchr aussi
 int	ft_non(char *str)
 {
 	int	i;
@@ -16,32 +28,34 @@ int	ft_non(char *str)
 	return (0);
 }
 
+// gerer fin du fchier ou sil ny a plus rien a lire
 char	*get_next_line(int fd)
 {
 	static char	*str;
-	char	*strfinal;
-	char	*buffer;
-	size_t	len;
+	char		*strfinal;
+	char		*buffer;
+	size_t		len;
 
-	str = NULL;
 	strfinal = NULL;
-	len = 0;
-	if (!buffer)
+	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	len = 1;
+	if (!buffer || BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
-	while (ft_non(str) == 0 && len%BUFFER_SIZE == 0)
+	while (ft_non(str) == 0 && len != 0)
 	{
-		buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
 		len += read(fd, buffer, BUFFER_SIZE);
-		printf("buffer : %s et str :%s\n", buffer, str);
+		if ((int)len == -1 || !buffer)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		buffer[len] = '\0';
 		str = ft_strjoin(str, buffer);
-		free(buffer);
+		if (!str)
+			return (NULL);
 	}
-	// gérer la fin du fichier 
-	if (len % BUFFER_SIZE != 0)
-	{
-
-	}
+	free(buffer);
 	strfinal = ft_strfinal(str);
-	str = ft_strcop(str, len, ft_strlen(strfinal));
-	return (strfinal);	
+	str = ft_strcop(str);
+	return (strfinal);
 }
