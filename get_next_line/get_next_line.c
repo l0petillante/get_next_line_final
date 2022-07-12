@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lhmissi <lhmissi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/11 14:02:28 by lhmissi           #+#    #+#             */
+/*   Updated: 2022/07/12 20:04:04 by lhmissi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
-// possibilite de reprendre strchr aussi
+
 int	ft_non(char *str)
 {
 	int	i;
@@ -16,33 +28,58 @@ int	ft_non(char *str)
 	return (0);
 }
 
-// gerer fin du fchier ou sil ny a plus rien a lire
-char	*get_next_line(int fd)
+void	ft_bzero(void *s, size_t n)
 {
-	static char	*str;
-	char		*strfinal;
-	char		*buffer;
-	size_t		len;
+	size_t			i;
+	unsigned char	*res;
 
-	strfinal = NULL;
-	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	len = 1;
-	if (!buffer || BUFFER_SIZE <= 0 || fd < 0)
-		return (NULL);
-	while (ft_non(str) == 0 && len != 0)
+	i = 0;
+	res = (unsigned char *)s;
+	while (i < n)
 	{
-		len += read(fd, buffer, BUFFER_SIZE);
-		if ((int)len == -1 || !buffer)
+		res[i] = 0;
+		i++;
+	}
+}
+
+char	*ft_str(int fd, char *str, char *buffer)
+{
+	int	len;
+
+	len = 0;
+	ft_bzero(buffer, BUFFER_SIZE + 1);
+	if (!ft_non(str))
+		len = read(fd, buffer, BUFFER_SIZE);
+	while (!ft_non(str) && len != 0)
+	{
+		if (len == -1)
 		{
 			free(buffer);
 			return (NULL);
 		}
-		buffer[len] = '\0';
 		str = ft_strjoin(str, buffer);
+		if (ft_non(str))
+			break ;
 		if (!str)
 			return (NULL);
+		ft_bzero(buffer, BUFFER_SIZE + 1);
+		len = read(fd, buffer, BUFFER_SIZE);
 	}
 	free(buffer);
+	return (str);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*str = NULL;
+	char		*strfinal;
+	char		*buffer;
+
+	strfinal = NULL;
+	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	if (!buffer || BUFFER_SIZE <= 0 || fd < 0)
+		return (NULL);
+	str = ft_str(fd, str, buffer);
 	strfinal = ft_strfinal(str);
 	str = ft_strcop(str);
 	return (strfinal);
