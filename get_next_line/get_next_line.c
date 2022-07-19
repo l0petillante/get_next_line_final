@@ -6,7 +6,7 @@
 /*   By: lhmissi <lhmissi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 14:02:28 by lhmissi           #+#    #+#             */
-/*   Updated: 2022/07/12 20:04:04 by lhmissi          ###   ########.fr       */
+/*   Updated: 2022/07/19 15:59:07 by lhmissi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ char	*ft_str(int fd, char *str, char *buffer)
 		ft_bzero(buffer, BUFFER_SIZE + 1);
 		len = read(fd, buffer, BUFFER_SIZE);
 	}
+	if (!str || len == 0)
+	{
+		free (buffer);
+		free (str);
+		return (NULL);
+	}
 	free(buffer);
 	return (str);
 }
@@ -82,5 +88,7 @@ char	*get_next_line(int fd)
 	str = ft_str(fd, str, buffer);
 	strfinal = ft_strfinal(str);
 	str = ft_strcop(str);
+	if (!strfinal)
+		return (NULL);
 	return (strfinal);
 }
