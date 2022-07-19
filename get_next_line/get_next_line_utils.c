@@ -6,7 +6,7 @@
 /*   By: lhmissi <lhmissi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 14:02:21 by lhmissi           #+#    #+#             */
-/*   Updated: 2022/07/12 19:33:52 by lhmissi          ###   ########.fr       */
+/*   Updated: 2022/07/19 16:21:41 by lhmissi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ char	*ft_strdup(char *s)
 
 	size = ft_strlen(s) + 1;
 	i = 0;
+	if (!s || size <= 1)
+		return (NULL);
 	res = malloc(sizeof(char) * size);
-	if (!res)
+	if (!res )
 		return (NULL);
 	else
 	{
@@ -52,12 +54,12 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	if (!s2)
+	if (!s2 && s1)
 		return (s1);
-	if (!s1)
+	if (!s1 && s2)
 		return (ft_strdup(s2));
 	res = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!res)
+	if (!res || (ft_strlen(s1) + ft_strlen(s2) <= 0))
 		return (NULL);
 	while (s1[i])
 	{
@@ -117,8 +119,11 @@ char	*ft_strcop(char *str)
 	}
 	res = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
 	i++;
-	if (!res)
+	if (!res || ft_strlen(str) - i <= 0)
+	{
+		free (res);
 		return (NULL);
+	}
 	while (str[i])
 		res[j++] = str[i++];
 	res[j] = '\0';
