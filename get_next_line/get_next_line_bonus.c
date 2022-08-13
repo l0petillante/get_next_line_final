@@ -6,7 +6,7 @@
 /*   By: lhmissi <lhmissi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 14:02:28 by lhmissi           #+#    #+#             */
-/*   Updated: 2022/07/18 15:39:06 by lhmissi          ###   ########.fr       */
+/*   Updated: 2022/08/13 17:39:46 by lhmissi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,16 @@ char	*get_next_line(int fd)
 	strfinal = NULL;
 	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buffer || BUFFER_SIZE <= 0 || fd < 0)
+	{
+		free (buffer);
 		return (NULL);
+	}
 	str[fd] = ft_str(fd, str[fd], buffer);
+	if (!str[fd])
+		return (NULL);
 	strfinal = ft_strfinal(str[fd]);
-	str[fd] = ft_strcop(str[fd]);
+	str[fd] = ft_strcop(str[fd], ft_strlen(strfinal));
+	if (!strfinal)
+		return (NULL);
 	return (strfinal);
 }
