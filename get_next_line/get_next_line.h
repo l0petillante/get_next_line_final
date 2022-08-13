@@ -6,7 +6,7 @@
 /*   By: lhmissi <lhmissi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 14:02:31 by lhmissi           #+#    #+#             */
-/*   Updated: 2022/07/12 20:04:16 by lhmissi          ###   ########.fr       */
+/*   Updated: 2022/08/13 16:42:49 by lhmissi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_next_line(int fd);
 size_t	ft_strlen(char *s);
 char	*ft_strdup(char *s);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strcop(char *str);
+char	*ft_strcop(char *str,size_t len);
 char	*ft_strfinal(char *str);
 
 #endif
