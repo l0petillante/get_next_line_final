@@ -6,7 +6,7 @@
 /*   By: lhmissi <lhmissi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 14:02:28 by lhmissi           #+#    #+#             */
-/*   Updated: 2022/08/13 17:39:46 by lhmissi          ###   ########.fr       */
+/*   Updated: 2022/08/14 15:39:40 by lhmissi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,11 @@ int	ft_non(char *str)
 	return (0);
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	size_t			i;
-	unsigned char	*res;
-
-	i = 0;
-	res = (unsigned char *)s;
-	while (i < n)
-	{
-		res[i] = 0;
-		i++;
-	}
-}
-
 char	*ft_str(int fd, char *str, char *buffer)
 {
 	int	len;
 
 	len = 0;
-	ft_bzero(buffer, BUFFER_SIZE + 1);
 	if (!ft_non(str))
 		len = read(fd, buffer, BUFFER_SIZE);
 	while (!ft_non(str) && len != 0)
@@ -57,12 +42,12 @@ char	*ft_str(int fd, char *str, char *buffer)
 			free(buffer);
 			return (NULL);
 		}
+		buffer[len] = 0;
 		str = ft_strjoin(str, buffer);
 		if (ft_non(str))
 			break ;
 		if (!str)
 			return (NULL);
-		ft_bzero(buffer, BUFFER_SIZE + 1);
 		len = read(fd, buffer, BUFFER_SIZE);
 	}
 	free(buffer);
