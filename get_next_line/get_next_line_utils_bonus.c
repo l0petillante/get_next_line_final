@@ -6,7 +6,7 @@
 /*   By: lhmissi <lhmissi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 14:02:21 by lhmissi           #+#    #+#             */
-/*   Updated: 2022/08/13 18:08:25 by lhmissi          ###   ########.fr       */
+/*   Updated: 2022/08/15 13:41:02 by lhmissi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_strdup(char *s)
 	if (!res)
 	{
 		free(res);
-		return (NULL);		
+		return (NULL);
 	}
 	else
 	{
@@ -67,17 +67,13 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!re || ((ft_strlen(s1) + ft_strlen(s2)) == 0))
 	{
 		free(re);
-		return (NULL);	
+		return (NULL);
 	}
-	while (s1[i])
-	{
-		re[i] = s1[i];
-		i++;
-	}
+	while (s1[j])
+		re[i++] = s1[j++];
+	j = 0;
 	while (s2[j])
-	{
 		re[i++] = s2[j++];
-	}
 	re[i] = '\0';
 	free(s1);
 	return (re);
@@ -130,11 +126,7 @@ char	*ft_strcop(char *str, size_t len)
 		return (NULL);
 	}
 	while (res && str[i])
-	{
-		res[j] = str[i];
-		j++;
-		i++;
-	}
+		res[j++] = str[i++];
 	res[j] = '\0';
 	free(str);
 	return (res);
