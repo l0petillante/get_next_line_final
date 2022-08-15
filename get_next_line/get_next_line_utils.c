@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lhmissi <lhmissi@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/11 14:02:21 by lhmissi           #+#    #+#             */
-/*   Updated: 2022/08/13 17:45:41 by lhmissi          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
 
 size_t	ft_strlen(char *s)
@@ -69,11 +57,9 @@ char	*ft_strjoin(char *s1, char *s2)
 		free(re);
 		return (NULL);
 	}
-	while (s1[i])
-	{
-		re[i] = s1[i];
-		i++;
-	}
+	while (s1[j])
+		re[i++] = s1[j++];
+	j = 0;
 	while (s2[j])
 		re[i++] = s2[j++];
 	re[i] = '\0';
@@ -95,7 +81,10 @@ char	*ft_strfinal(char *str)
 		i++;
 	res = malloc(sizeof(char) * (i + 2));
 	if (!res)
+	{
+		free(res);
 		return (NULL);
+	}
 	while (i >= 0)
 	{
 		res[j] = str[j];
@@ -113,20 +102,21 @@ char	*ft_strcop(char *str, size_t len)
 	char	*res;
 
 	i = len;
-	j = 0;
+	j = ft_strlen(str);
 	if (!str || len == 0)
 		return (NULL);
-	if (ft_strlen(str) == i)
+	if (j == i)
 	{
 		free (str);
 		return (NULL);
 	}
-	res = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	res = malloc(sizeof(char) * (j - i + 1));
 	if (!res)
 	{
 		free (res);
 		return (NULL);
 	}
+	j = 0;
 	while (res && str[i])
 		res[j++] = str[i++];
 	res[j] = '\0';
